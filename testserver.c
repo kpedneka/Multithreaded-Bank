@@ -22,13 +22,14 @@ void error(char *msg)
   exit(1);
 }
 
+char account[100];
 
 int parse(char* buffer, struct BankAcct_** AllAccounts)
 {
   char* token;
   token = strtok(buffer, " \t\n\f\v\r");
   float amount = 0.0;
-  char account [100];
+  //char account [100];
   int condition = -1;
   //BankAcct temp = NULL;
   struct BankAcct_* temp;
@@ -50,10 +51,7 @@ int parse(char* buffer, struct BankAcct_** AllAccounts)
 	  //account = malloc(sizeof(char)*strlen(token)+1);
 	  strcpy(account,token);
 	  condition =start(account, AllAccounts);
-	  if(condition!=0)
-	    return 1;
-	  else
-	    return 0;
+	  return 0;
 	}
       else if(strcmp(token,"credit")==0)
 	{
@@ -62,10 +60,7 @@ int parse(char* buffer, struct BankAcct_** AllAccounts)
 	  if(amount == 0)
 	    printf("Invalid Amount, Please enter amount > 0.0\n");
 	  condition = credit(account,amount, AllAccounts);
-	  if(condition!=0)
-	    return 1;
-	  else
-	    return 0;
+	  return 0;
 	  
 	}
       else if(strcmp(token,"debit")==0)
@@ -75,10 +70,7 @@ int parse(char* buffer, struct BankAcct_** AllAccounts)
 	  if(amount == 0)
 	    printf("Invalid Amount, Please enter amount > 0.0\n");
 	  condition = debit(account,amount, AllAccounts);
-	  if(condition!=0)
-	    return 1;
-	  else
-	    return 0;
+	  return 0;
 	}
       else if(strcmp(token,"balance")==0)
 	{
@@ -119,7 +111,7 @@ void handleConnection(void * args)
   char buffer[256];
   int p = -1;//return value from parse method
   
-  while (p!=1)
+  while (1)
     {
       // zero out the char buffer to receive a client message
       bzero(buffer,256);
@@ -231,12 +223,6 @@ int main(int argc, char *argv[])
   int i;
   for(i = 0; i < 20; i++)
     {
-      /*
-      AllAccounts[i] = (struct BankAcct_*)malloc(sizeof(struct BankAcct_));
-      AllAccounts[i]->owner = NULL;
-      AllAccounts[i]->balance = 0.0;
-      AllAccounts[i]->inSession = 1;
-      */
       AllAccounts[i] = NULL;
     }
   

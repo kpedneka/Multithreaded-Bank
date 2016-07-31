@@ -30,13 +30,13 @@ int open(char* name, struct BankAcct_** AllAccounts)
   int i = 0;
   for(i = 0; i<20; i++)
     {
-      if(AllAccounts[i]->owner==NULL)
+      if(AllAccounts[i]==NULL)
 	{
 	  struct BankAcct_* ba = (struct BankAcct_*)malloc(sizeof(struct BankAcct_));
 	  ba->owner = (char *)malloc(sizeof(strlen(name))+1);
 	  strcpy(ba->owner, name);
 	  ba->balance = 0.00;
-	  ba->inSession = 0; //0 means true
+	  ba->inSession = 1; //0 means true
 	  AllAccounts[i] = ba;
 	  printf("SUCCESS: Account: %s Opened Succesfully\n",AllAccounts[i]->owner);
 	  return 0;
